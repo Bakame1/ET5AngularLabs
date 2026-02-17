@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 import { MenuComponent } from './menu/menu';
 import { ProductCardComponent } from './product/product-card/product-card';
 import { ProductComponent } from './product/product';
@@ -9,7 +10,7 @@ import { APP_TITLE } from './app.token';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MenuComponent, ProductCardComponent],
+  imports: [MenuComponent, ProductCardComponent, CurrencyPipe],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -17,23 +18,23 @@ export class App {
   private catalogService = inject(CatalogService);
   private basketService = inject(BasketService);
 
-  // Injection du titre via le Token
   title = inject(APP_TITLE);
 
-  // On expose les signaux des services pour le template
   products = this.catalogService.products;
-  // Note: Si votre template utilise 'total_price_in_basket', changez-le pour utiliser basketService.total()
+  total = this.basketService.total;
+  hasProductsInStock = this.catalogService.hasProductsInStock;
 
-  // Cette méthode est appelée par l'événement (output) du composant product-card
+  constructor() {
+    // Initialisation des données via HTTP
+    this.catalogService.fetchProducts().subscribe();
+    this.basketService.fetchBasket().subscribe();
+  }
+
   addToBasket(product: ProductComponent) {
-    // 1. On décrémente le stock via le CatalogService
-    this.catalogService.decreaseStock(product.id);
-
-    // 2. On ajoute l'item via le BasketService
-    this.basketService.addItem({
-      id: product.id,
-      title: product.title,
-      price: product.price
+    // On appelle l'API pour ajouter au panier
+    this.basketService.addItem(product.id).subscribe(() => {
+        // En cas de succès, on décrémente le stock localement pour l'affichage
+        this.catalogService.decreaseStock(product.id);
     });
   }
 }

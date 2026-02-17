@@ -1,10 +1,9 @@
+<app-menu />
 
-<app-menu [quantity_in_basket]="number_of_items_in_basket()"></app-menu>
-<!-- Extract to "src/app/app.component.html" -->
 <main class="py-4 container">
   <header class="p-4 mb-4 bg-light rounded-3">
-    <h1>Bienvenue sur Zenika Ecommerce</h1>
-    <p>Votre panier s'élève à {{ total_price_in_basket() }}</p>
+    <h1>{{ title }}</h1>
+    <p>Votre panier s'élève à {{ total() | currency }}</p>
     <p class="mb-0"><a class="btn btn-primary btn-large">Voir mon panier</a></p>
   </header>
 
@@ -16,22 +15,21 @@
 
     @for (product of products(); track product.id) {
 
-      @if (product.stock > 0) {
-      <div class="col">
-        <app-product-card
-          [product]="product"
-          (addToBasket)="addProductToBasket($event)">
-        </app-product-card>
-      </div>
-      }
-    }
-
-    </div>
-
-    } @else {
-    <div class="alert alert-danger">
-      Désolé, notre stock est vide !
+    @if (product.stock > 0) {
+    <div class="col">
+      <app-product-card
+        [product]="product"
+        (addToBasket)="addToBasket($event)">
+      </app-product-card>
     </div>
     }
+    }
+
+  </div>
+
+  } @else {
+  <div class="alert alert-danger">
+    Désolé, notre stock est vide !
+  </div>
+  }
 </main>
-<!-- End of Extract to "src/app/app.component.html" -->

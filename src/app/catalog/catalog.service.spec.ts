@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { CatalogService } from './catalog.service';
-import { ProductComponent } from '../product/product';
 
 describe('CatalogService', () => {
   let service: CatalogService;
@@ -15,16 +14,32 @@ describe('CatalogService', () => {
   });
 
   it('should decrease the product stock', () => {
-    const initialStock = service.products()[0].stock;
-    service.decreaseStock(service.products()[0].id);
-    expect(service.products()[0].stock).toBe(initialStock - 1);
+    const product = service.products()[0];
+    const initialStock = product.stock;
+
+    service.decreaseStock(product.id);
+
+    // On récupère le produit à jour
+    const updatedProduct = service.products().find(p => p.id === product.id);
+    expect(updatedProduct?.stock).toBe(initialStock - 1);
   });
 
   it('should not decrease the product stock when stock is empty', () => {
-    const productId = service.products()[0].id;
-    service.decreaseStock(productId);
-    const initialStock = service.products().find(p => p.id === productId)?.stock;
-    service.decreaseStock(productId);
-    expect(service.products().find(p => p.id === productId)?.stock).toBe(initialStock);
+    const product = service.products()[0];
+
+    // 1. On vide le stock complètement (il est à 2 par défaut)
+    service.decreaseStock(product.id); // Passe à 1
+    service.decreaseStock(product.id); // Passe à 0
+
+    // Vérification intermédiaire pour être sûr
+    let updatedProduct = service.products().find(p => p.id === product.id);
+    expect(updatedProduct?.stock).toBe(0);
+
+    // 2. On tente de décrémenter encore une fois
+    service.decreaseStock(product.id);
+
+    // 3. Le stock doit rester à 0
+    updatedProduct = service.products().find(p => p.id === product.id);
+    expect(updatedProduct?.stock).toBe(0);
   });
 });

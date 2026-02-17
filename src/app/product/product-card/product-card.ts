@@ -1,11 +1,11 @@
 import { Component, input, output } from '@angular/core';
 import { ProductComponent } from '../product';
-import { NgClass } from '@angular/common';
+import { CurrencyPipe, UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-product-card',
   standalone: true,
-  imports: [NgClass],
+  imports: [CurrencyPipe, UpperCasePipe],
   templateUrl: './product-card.html',
   styleUrl: './product-card.css',
 })

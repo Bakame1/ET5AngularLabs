@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { BasketService, BasketItem } from './basket.service';
+import { BasketService } from './basket.service';
+import { BasketItem } from './basket-item'; // Import correct depuis le fichier séparé
 
 describe('BasketService', () => {
   let service: BasketService;
