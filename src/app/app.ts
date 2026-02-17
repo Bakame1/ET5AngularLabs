@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 
 import { MenuComponent } from './menu/menu';
 import { ProductCard } from './product/product-card/product-card';
+import { Product } from './product/product';
 
 @Component({
   selector: 'app-root',
@@ -12,5 +13,47 @@ import { ProductCard } from './product/product-card/product-card';
   styleUrl: './app.css'
 })
 export class App {
-  title = 'Hello, ET5AngularLabs';
+  // Le total du panier
+    total = 0;
+
+    // La liste des données (copiée depuis products.json comme demandé)
+    products: Product[] = [
+      {
+        id: 'coding-the-welsch',
+        title: 'Coding the welsch',
+        description: 'Tee-shirt col rond - Homme',
+        photo: '/assets/coding-the-welsch.jpg',
+        price: 20,
+        stock: 2
+      },
+      {
+        id: 'coding-the-world',
+        title: 'Coding the world',
+        description: 'Tee-shirt col rond - Homme',
+        photo: '/assets/coding-the-world.jpg',
+        price: 18,
+        stock: 2
+      },
+      {
+        id: 'duck-vador',
+        title: 'Duck Vador',
+        description: 'Tee-shirt col rond - Femme',
+        photo: '/assets/coding-the-stars.jpg',
+        price: 21,
+        stock: 2
+      },
+      {
+        id: 'coding-the-snow',
+        title: 'Coding the snow',
+        description: 'Tee-shirt col rond - Femme',
+        photo: '/assets/coding-the-snow.jpg',
+        price: 19,
+        stock: 2
+      }
+    ];
+
+    addProductToBasket(product: Product) {
+      // Mise à jour du total
+      this.total += product.price;
+    }
 }
