@@ -102,7 +102,7 @@ describe('App', () => {
             // Vérifie le message global quand tout est vide (@else)
             it('should display a message when stock is completely empty', () => {
               // On vide le stock de TOUS les produits
-              component.products.forEach(p => p.stock = 0);
+              component.products.forEach((p: ProductComponent) => p.stock = 0);
 
               // On met à jour le HTML
               fixture.detectChanges();

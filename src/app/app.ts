@@ -1,72 +1,39 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { MenuComponent } from './menu/menu';
 import { ProductCardComponent } from './product/product-card/product-card';
 import { ProductComponent } from './product/product';
+import { CatalogService } from './catalog/catalog.service';
+import { BasketService } from './basket/basket.service';
+import { APP_TITLE } from './app.token';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MenuComponent, ProductCardComponent ],
+  imports: [MenuComponent, ProductCardComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
-  // Le total du panier
-    total_price_in_basket = 0;
-    number_of_items_in_basket = 0;
+  private catalogService = inject(CatalogService);
+  private basketService = inject(BasketService);
 
-    // La liste des données (copiée depuis products.json comme demandé)
-    products: ProductComponent[] = [
-      {
-        id: 'coding-the-welsch',
-        title: 'Coding the welsch',
-        description: 'Tee-shirt col rond - Homme',
-        photo: '/assets/coding-the-welsch.jpg',
-        price: 20,
-        stock: 2
-      },
-      {
-        id: 'coding-the-world',
-        title: 'Coding the world',
-        description: 'Tee-shirt col rond - Homme',
-        photo: '/assets/coding-the-world.jpg',
-        price: 18,
-        stock: 2
-      },
-      {
-        id: 'duck-vador',
-        title: 'Duck Vador',
-        description: 'Tee-shirt col rond - Femme',
-        photo: '/assets/coding-the-stars.jpg',
-        price: 21,
-        stock: 2
-      },
-      {
-        id: 'coding-the-snow',
-        title: 'Coding the snow',
-        description: 'Tee-shirt col rond - Femme',
-        photo: '/assets/coding-the-snow.jpg',
-        price: 19,
-        stock: 2
-      }
-    ];
+  // Injection du titre via le Token
+  title = inject(APP_TITLE);
 
-    //Getter pour vérifier si au moins un produit a du stock
-    get hasProductsInStock(): boolean {
-        // .some() renvoie true si au moins un élément respecte la condition
-        return this.products.some(product => product.stock > 0);
-    }
+  // On expose les signaux des services pour le template
+  products = this.catalogService.products;
+  // Note: Si votre template utilise 'total_price_in_basket', changez-le pour utiliser basketService.total()
 
-    addProductToBasket(product: ProductComponent) {
+  // Cette méthode est appelée par l'événement (output) du composant product-card
+  addToBasket(product: ProductComponent) {
+    // 1. On décrémente le stock via le CatalogService
+    this.catalogService.decreaseStock(product.id);
 
-
-      if (product.stock > 0) {
-        product.stock--; // On décrémente le stock du produit
-
-        // Mise à jour du total
-        this.total_price_in_basket += product.price;
-        this.number_of_items_in_basket++;
-      }
-    }
+    // 2. On ajoute l'item via le BasketService
+    this.basketService.addItem({
+      id: product.id,
+      title: product.title,
+      price: product.price
+    });
+  }
 }
