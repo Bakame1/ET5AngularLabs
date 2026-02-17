@@ -1,7 +1,4 @@
-import { Component } from '@angular/core';
-//to add number of items in basket we need to
-import { App } from '../app';
-
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-menu',
@@ -11,5 +8,5 @@ import { App } from '../app';
   styleUrl: './menu.css',
 })
 export class MenuComponent {
-  title = 'Hello menu';
+  quantity_in_basket = input(0);
 }

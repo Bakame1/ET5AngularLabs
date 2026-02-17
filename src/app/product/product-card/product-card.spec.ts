@@ -6,11 +6,24 @@ describe('ProductCard', () => {
   let component: ProductCard;
   let fixture: ComponentFixture<ProductCard>;
 
+  fdescribe('ProductCard', () => {
+   /* ... */
+  });
+
+
+
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [ProductCard]
     })
     .compileComponents();
+
+    fixture.componentRef.setInput('product', {
+       title: 'TITLE',
+       description: 'DESC',
+       // ...
+      });
 
     fixture = TestBed.createComponent(ProductCard);
     component = fixture.componentInstance;
