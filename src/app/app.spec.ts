@@ -18,7 +18,6 @@ describe('App', () => {
 
     fixture = TestBed.createComponent(App);
     component = fixture.componentInstance;
-    fixture.detectChanges();
    });
 
    it('should create the app', () => {
@@ -27,6 +26,8 @@ describe('App', () => {
 
    // Test d'affichage : Il doit afficher les produits
      it('should display the products', () => {
+       fixture.detectChanges();
+
        // On compte le nombre de balises <app-product-card> dans le DOM
        const productElements = fixture.debugElement.queryAll(By.css('app-product-card'));
 
@@ -112,7 +113,7 @@ describe('App', () => {
 
               // 2. On vérifie que le message d'alerte est présent
               // (Suppose que tu as mis une div avec la classe .alert ou .alert-danger comme vu précédemment)
-              const alertElement = fixture.debugElement.query(By.css('.alert alert-danger'));
+              const alertElement = fixture.debugElement.query(By.css('.alert.alert-danger'));
               expect(alertElement).toBeTruthy();
               expect(alertElement.nativeElement.textContent).toContain('Désolé, notre stock est vide !');
             });
