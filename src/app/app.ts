@@ -14,7 +14,8 @@ import { Product } from './product/product';
 })
 export class App {
   // Le total du panier
-    total = 0;
+    total_price_in_basket = 0;
+    number_of_items_in_basket = 0;
 
     // La liste des données (copiée depuis products.json comme demandé)
     products: Product[] = [
@@ -54,6 +55,7 @@ export class App {
 
     addProductToBasket(product: Product) {
       // Mise à jour du total
-      this.total += product.price;
+      this.total_price_in_basket += product.price;
+      this.number_of_items_in_basket++;
     }
 }
