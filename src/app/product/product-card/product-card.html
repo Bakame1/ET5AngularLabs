@@ -12,6 +12,8 @@
 
     <p class="card-text">{{ product().price }} €</p>
 
+    <p class="card-text">Stock : {{ product().stock }}</p>
+
     <button class="btn btn-primary" (click)="addToBasket.emit(product())">
       Ajoutez au panier
     </button>

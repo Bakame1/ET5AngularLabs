@@ -53,8 +53,13 @@ export class App {
     ];
 
     addProductToBasket(product: ProductComponent) {
-      // Mise à jour du total
-      this.total_price_in_basket += product.price;
-      this.number_of_items_in_basket++;
+
+
+      if (product.stock > 0) {
+        // Mise à jour du total
+        this.total_price_in_basket += product.price;
+        this.number_of_items_in_basket++;
+        product.stock--; // On décrémente le stock du produit
+      }
     }
 }
