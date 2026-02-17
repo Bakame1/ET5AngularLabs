@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { Product } from '../product';
+import { ProductComponent } from '../product';
 
 @Component({
   selector: 'app-product-card',
@@ -8,11 +8,11 @@ import { Product } from '../product';
   templateUrl: './product-card.html',
   styleUrl: './product-card.css',
 })
-export class ProductCard {
+export class ProductCardComponent {
   // Entrée requise : le produit à afficher
-  product = input.required<Product>();
+  product = input.required<ProductComponent>();
 
   // Sortie : événement quand on clique sur le bouton
-  addToBasket = output<Product>();
+  addToBasket = output<ProductComponent>();
 }
 

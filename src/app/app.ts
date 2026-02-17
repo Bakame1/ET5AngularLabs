@@ -1,14 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-
 import { MenuComponent } from './menu/menu';
-import { ProductCard } from './product/product-card/product-card';
-import { Product } from './product/product';
+import { ProductCardComponent } from './product/product-card/product-card';
+import { ProductComponent } from './product/product';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MenuComponent, ProductCard],
+  imports: [MenuComponent, ProductCardComponent ],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -18,7 +17,7 @@ export class App {
     number_of_items_in_basket = 0;
 
     // La liste des données (copiée depuis products.json comme demandé)
-    products: Product[] = [
+    products: ProductComponent[] = [
       {
         id: 'coding-the-welsch',
         title: 'Coding the welsch',
@@ -53,7 +52,7 @@ export class App {
       }
     ];
 
-    addProductToBasket(product: Product) {
+    addProductToBasket(product: ProductComponent) {
       // Mise à jour du total
       this.total_price_in_basket += product.price;
       this.number_of_items_in_basket++;
