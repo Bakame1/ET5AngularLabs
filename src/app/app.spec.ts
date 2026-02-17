@@ -112,9 +112,9 @@ describe('App', () => {
 
               // 2. On vérifie que le message d'alerte est présent
               // (Suppose que tu as mis une div avec la classe .alert ou .alert-danger comme vu précédemment)
-              const alertElement = fixture.debugElement.query(By.css('.alert'));
+              const alertElement = fixture.debugElement.query(By.css('.alert alert-danger'));
               expect(alertElement).toBeTruthy();
-              expect(alertElement.nativeElement.textContent).toContain('vide');
+              expect(alertElement.nativeElement.textContent).toContain('Désolé, notre stock est vide !');
             });
 
 });

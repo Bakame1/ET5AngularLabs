@@ -68,4 +68,30 @@ describe('ProductCardComponent', () => {
 
       expect(spy).toHaveBeenCalledWith(mockProduct);
     });
+
+  //TESTS NGCLASS
+  // Pas de classe spéciale si stock > 1
+    it('should not add the "text-bg-warning" className when stock is greater than 1', () => {
+      // On met le stock à 2
+      component.product().stock = 2;
+
+      // avec les Signaux :
+      fixture.componentRef.setInput('product', { ...mockProduct, stock: 2 });
+      fixture.detectChanges();
+
+      const cardElement = fixture.debugElement.query(By.css('.card'));
+      // On vérifie que la classe n'est PAS présente
+      expect(cardElement.classes['text-bg-warning']).toBeFalsy();
+    });
+
+    // Test 2 : Classe présente si stock === 1
+    it('should add the "text-bg-warning" className when stock is equal to 1', () => {
+      // On met le stock à 1
+      fixture.componentRef.setInput('product', { ...mockProduct, stock: 1 });
+      fixture.detectChanges();
+
+      const cardElement = fixture.debugElement.query(By.css('.card'));
+      // On vérifie que la classe EST présente
+      expect(cardElement.classes['text-bg-warning']).toBeTruthy();
+    });
 });
