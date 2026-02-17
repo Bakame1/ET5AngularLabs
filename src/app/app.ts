@@ -52,14 +52,21 @@ export class App {
       }
     ];
 
+    //Getter pour vérifier si au moins un produit a du stock
+    get hasProductsInStock(): boolean {
+        // .some() renvoie true si au moins un élément respecte la condition
+        return this.products.some(product => product.stock > 0);
+    }
+
     addProductToBasket(product: ProductComponent) {
 
 
       if (product.stock > 0) {
+        product.stock--; // On décrémente le stock du produit
+
         // Mise à jour du total
         this.total_price_in_basket += product.price;
         this.number_of_items_in_basket++;
-        product.stock--; // On décrémente le stock du produit
       }
     }
 }

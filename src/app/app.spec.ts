@@ -83,4 +83,38 @@ describe('App', () => {
          expect(mockProduct.stock).toBe(0);
        });
 
+     // Vérifie que les produits sans stock disparaissent du DOM (@if product.stock > 0)
+            it('should not display products whose stock is empty', () => {
+              // On vide le stock du premier produit de la liste
+              component.products[0].stock = 0;
+
+              // On force la mise à jour du HTML
+              fixture.detectChanges();
+
+              // On compte les cartes affichées
+              const productElements = fixture.debugElement.queryAll(By.css('app-product-card'));
+
+              // On s'attend à en avoir 3 (4 au total - 1 vide)
+              expect(productElements.length).toBe(3);
+            });
+
+            // Vérifie le message global quand tout est vide (@else)
+            it('should display a message when stock is completely empty', () => {
+              // On vide le stock de TOUS les produits
+              component.products.forEach(p => p.stock = 0);
+
+              // On met à jour le HTML
+              fixture.detectChanges();
+
+              // 1. On vérifie qu'il n'y a plus de cartes produits
+              const productElements = fixture.debugElement.queryAll(By.css('app-product-card'));
+              expect(productElements.length).toBe(0);
+
+              // 2. On vérifie que le message d'alerte est présent
+              // (Suppose que tu as mis une div avec la classe .alert ou .alert-danger comme vu précédemment)
+              const alertElement = fixture.debugElement.query(By.css('.alert'));
+              expect(alertElement).toBeTruthy();
+              expect(alertElement.nativeElement.textContent).toContain('vide');
+            });
+
 });
